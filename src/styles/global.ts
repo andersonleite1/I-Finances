@@ -61,6 +61,19 @@ const GlobalStyle = createGlobalStyle`
     position: relative;
     border-radius: 0.25rem;
   }
+  .react-modal-close {
+    position: absolute;
+    right: 1.5rem;
+    top: 1.5rem;
+    border: 0;
+    background: transparent;
+    transition: filter 0.2s;
+    transition: transform .7s ease-in-out;
+    &:hover {
+      filter: brightness(0.8);
+      transform: rotate(360deg);
+    }
+  }
 `;
 
 export default GlobalStyle;
