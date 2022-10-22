@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const Container = styled.form`
+export const Container = styled.form`
   h2 {
     color: var(--text-title);
     font-size: 1.5rem;
@@ -40,4 +40,33 @@ const Container = styled.form`
   }
 `;
 
-export default Container;
+export const TransactionTypeContainer = styled.div`
+  margin: 1rem 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  button {
+    height: 4rem;
+    border: 1px solid #d7d7d7;
+    border-radius: 0.25rem;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color background-color 0.3s;
+    &:hover {
+      border-color: #aaa;
+      background-color: #eee;
+    }
+    img {
+      width: 20px;
+      height: 20px;
+    }
+    span {
+      display: inline-block;
+      margin-left: 1rem;
+      font-size: 1rem;
+      color: var(--text-title);
+    }
+  }
+`;
