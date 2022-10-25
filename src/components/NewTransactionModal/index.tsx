@@ -11,7 +11,7 @@ type NewTransactionModalProps = {
 }
 
 export default function NewTransactionModal({ isOpen, onRequestClose }: NewTransactionModalProps) {
-  const [type, setType] = useState('deposit');
+  const [typeTransaction, setType] = useState('deposit');
 
   return (
     <Modal
@@ -35,7 +35,8 @@ export default function NewTransactionModal({ isOpen, onRequestClose }: NewTrans
           <RadioBox
             type="button"
             onClick={() => setType('deposit')}
-            isActive={type === 'deposit'}
+            isActive={typeTransaction === 'deposit'}
+            activeColor="green"
           >
             <img src={incomeSvg} alt="Entrada" />
             <span>Entrada</span>
@@ -43,7 +44,8 @@ export default function NewTransactionModal({ isOpen, onRequestClose }: NewTrans
           <RadioBox
             type="button"
             onClick={() => setType('withdraw')}
-            isActive={type === 'withdraw'}
+            isActive={typeTransaction === 'withdraw'}
+            activeColor="red"
           >
             <img src={outcomeSvg} alt="Saída" />
             <span>Saída</span>
