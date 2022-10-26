@@ -4,7 +4,7 @@ import GlobalStyle from './styles/global';
 import Header from './components/Header';
 import Dashboard from './components/Dashboard';
 import NewTransactionModal from './components/NewTransactionModal';
-import TransactionContext from './TransactionsContext';
+import { TransactionsProvider } from './TransactionsContext';
 
 Modal.setAppElement('#root');
 
@@ -20,8 +20,7 @@ function App() {
   };
 
   return (
-    // eslint-disable-next-line react/jsx-no-constructed-context-values
-    <TransactionContext.Provider value={[]}>
+    <TransactionsProvider>
       <Header onOpenNewTransactionModal={handleOpenModal} />
       <Dashboard />
       <NewTransactionModal
@@ -29,7 +28,7 @@ function App() {
         onRequestClose={handleCloseModal}
       />
       <GlobalStyle />
-    </TransactionContext.Provider>
+    </TransactionsProvider>
   );
 }
 
