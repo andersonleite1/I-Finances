@@ -1,10 +1,11 @@
-import React, { FormEvent, useState } from 'react';
+import React, { FormEvent, useContext, useState } from 'react';
 import Modal from 'react-modal';
+import TransactionContext from '../../TransactionsContext';
+
 import closeSvg from '../../assets/fechar.svg';
 import incomeSvg from '../../assets/entradas.svg';
 import outcomeSvg from '../../assets/saidas.svg';
 import { Container, RadioBox, TransactionTypeContainer } from './style';
-import api from '../../services/api';
 
 type NewTransactionModalProps = {
   isOpen: boolean;
@@ -12,21 +13,21 @@ type NewTransactionModalProps = {
 }
 
 export default function NewTransactionModal({ isOpen, onRequestClose }: NewTransactionModalProps) {
+  const { createTransaction } = useContext(TransactionContext);
+
   const [title, setTitle] = useState('');
   const [value, setValue] = useState(0);
   const [category, setCategory] = useState('');
-  const [typeTransaction, setType] = useState('deposit');
+  const [type, setType] = useState('deposit');
 
   const handleCreateNewTransaction = (event: FormEvent) => {
     event.preventDefault();
-    const data = {
+    createTransaction({
       title,
-      value,
+      amount: value,
       category,
-      typeTransaction,
-    };
-
-    api.post('/transactions', data);
+      type,
+    });
   };
 
   return (
@@ -60,7 +61,7 @@ export default function NewTransactionModal({ isOpen, onRequestClose }: NewTrans
           <RadioBox
             type="button"
             onClick={() => setType('deposit')}
-            isActive={typeTransaction === 'deposit'}
+            isActive={type === 'deposit'}
             activeColor="green"
           >
             <img src={incomeSvg} alt="Entrada" />
@@ -69,7 +70,7 @@ export default function NewTransactionModal({ isOpen, onRequestClose }: NewTrans
           <RadioBox
             type="button"
             onClick={() => setType('withdraw')}
-            isActive={typeTransaction === 'withdraw'}
+            isActive={type === 'withdraw'}
             activeColor="red"
           >
             <img src={outcomeSvg} alt="Saída" />
