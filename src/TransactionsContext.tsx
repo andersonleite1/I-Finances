@@ -20,7 +20,7 @@ type TransactionInput = Omit<Transaction, 'id' | 'createdAt'>; // Omit: omitir p
 /* eslint-disable no-unused-vars */
 interface TransactionsContextData {
   transactions: Transaction[];
-  createTransaction: (transaction: TransactionInput) => void;
+  createTransaction: (transaction: TransactionInput) => Promise<void>;
 }
 
 interface TransactionsProviderProps {
@@ -41,8 +41,13 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
       .then(({ data }) => setTransactions(data.transactions));
   }, []);
 
-  function createTransaction(transaction: TransactionInput) {
-    api.post('/transactions', transaction);
+  async function createTransaction(transactionInput: TransactionInput) {
+    const response = await api.post('/transactions', {
+      ...transactionInput,
+      createdAt: new Date(),
+    });
+    const { transaction: newTransaction } = response.data;
+    setTransactions([...transactions, newTransaction]);
   }
 
   return (
