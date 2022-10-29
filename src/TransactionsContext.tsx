@@ -15,11 +15,21 @@ interface Transaction {
   createdAt: string;
 }
 
+type TransactionInput = Omit<Transaction, 'id' | 'createdAt'>; // Omit: omitir propriedades
+
+/* eslint-disable no-unused-vars */
+interface TransactionsContextData {
+  transactions: Transaction[];
+  createTransaction: (transaction: TransactionInput) => void;
+}
+
 interface TransactionsProviderProps {
   children: ReactNode;
 }
 
-const TransactionContext = createContext<Transaction[]>([]);
+const TransactionContext = createContext<TransactionsContextData>(
+  {} as TransactionsContextData,
+);
 
 export default TransactionContext;
 
@@ -31,9 +41,13 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
       .then(({ data }) => setTransactions(data.transactions));
   }, []);
 
+  function createTransaction(transaction: TransactionInput) {
+    api.post('/transactions', transaction);
+  }
+
   return (
-    // eslint-disable-next-line react/react-in-jsx-scope
-    <TransactionContext.Provider value={transactions}>
+    // eslint-disable-next-line react/react-in-jsx-scope, react/jsx-no-constructed-context-values
+    <TransactionContext.Provider value={{ transactions, createTransaction }}>
       {children}
     </TransactionContext.Provider>
   );
